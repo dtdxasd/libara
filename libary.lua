@@ -690,7 +690,7 @@ do
                 Name = 'Layout',
                 FillDirection = Enum.FillDirection.Vertical;
                 SortOrder = Enum.SortOrder.LayoutOrder;
-                Parent = ContextMenu.Inner,
+                Parent = ContextMenu.Inner;
             });
 
             Library:Create('UIPadding', {
@@ -864,7 +864,7 @@ do
         function ColorPicker:OnChanged(Func)
             ColorPicker.Changed = Func;
             Func(ColorPicker.Value)
-        end
+        end;
 
         function ColorPicker:Show()
             for Frame, Val in next, Library.OpenedFrames do
@@ -1015,7 +1015,7 @@ do
             Callback = Info.Callback or function(Value) end;
             ChangedCallback = Info.ChangedCallback or function(New) end;
 
-            SyncToggleState = Info.SyncToggleState or false,
+            SyncToggleState = Info.SyncToggleState or false;
         };
 
         if KeyPicker.SyncToggleState then
@@ -1084,7 +1084,7 @@ do
         Library:Create('UIListLayout', {
             FillDirection = Enum.FillDirection.Vertical;
             SortOrder = Enum.SortOrder.LayoutOrder;
-            Parent = ModeSelectInner,
+            Parent = ModeSelectInner;
         });
 
         local ContainerLabel = Library:CreateLabel({
@@ -1326,64 +1326,6 @@ do
 
         return self;
     end;
-
-    function Funcs:AddImage(Idx, Info)
-        assert(Info.Image, 'AddImage: Missing `Image` URL.')
-
-        local Image = {
-            Type = 'Image';
-            Callback = Info.Callback or function() end;
-        };
-
-        local Groupbox = self;
-        local Container = Groupbox.Container;
-
-        local ImageOuter = Library:Create('Frame', {
-            BackgroundColor3 = Color3.new(0, 0, 0);
-            BorderColor3 = Color3.new(0, 0, 0);
-            Size = UDim2.new(0, Info.Size or 50, 0, Info.Size or 50);
-            ZIndex = 5;
-            Parent = Container;
-        });
-
-        local ImageInner = Library:Create('Frame', {
-            BackgroundColor3 = Library.MainColor;
-            BorderColor3 = Library.OutlineColor;
-            BorderMode = Enum.BorderMode.Inset;
-            Size = UDim2.new(1, 0, 1, 0);
-            ZIndex = 6;
-            Parent = ImageOuter;
-        });
-
-        Library:AddToRegistry(ImageInner, {
-            BackgroundColor3 = 'MainColor';
-            BorderColor3 = 'OutlineColor';
-        });
-
-        local ImageLabel = Library:Create('ImageLabel', {
-            BackgroundTransparency = 1;
-            Size = UDim2.new(1, 0, 1, 0);
-            Image = Info.Image;
-            ZIndex = 7;
-            Parent = ImageInner;
-        });
-
-        if type(Info.Tooltip) == 'string' then
-            Library:AddToolTip(Info.Tooltip, ImageOuter);
-        end
-
-        function Image:SetImage(NewImage)
-            ImageLabel.Image = NewImage;
-            Library:SafeCallback(Image.Callback, NewImage);
-        end
-
-        Groupbox:AddBlank(Info.BlankSize or 5);
-        Groupbox:Resize();
-
-        Options[Idx] = Image;
-
-        return Image;
-    end
 
     BaseAddons.__index = Funcs;
     BaseAddons.__namecall = function(Table, Key, ...)
@@ -1662,7 +1604,7 @@ do
             BorderColor3 = Color3.new(0, 0, 0);
             Size = UDim2.new(1, -4, 0, 5);
             ZIndex = 5;
-            Parent = Container,
+            Parent = Container;
         });
 
         local DividerInner = Library:Create('Frame', {
@@ -1671,7 +1613,7 @@ do
             BorderMode = Enum.BorderMode.Inset;
             Size = UDim2.new(1, 0, 1, 0);
             ZIndex = 6;
-            Parent = DividerOuter,
+            Parent = DividerOuter;
         });
 
         Library:AddToRegistry(DividerOuter, {
@@ -1743,6 +1685,15 @@ do
             Library:AddToolTip(Info.Tooltip, TextBoxOuter)
         end
 
+        Library:Create('UIGradient', {
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(212, 212, 212))
+            });
+            Rotation = 90;
+            Parent = TextBoxInner;
+        });
+
         local Container = Library:Create('Frame', {
             BackgroundTransparency = 1;
             ClipsDescendants = true;
@@ -1751,7 +1702,7 @@ do
             Size = UDim2.new(1, -5, 1, 0);
 
             ZIndex = 7;
-            Parent = TextBoxInner,
+            Parent = TextBoxInner;
         })
 
         local Box = Library:Create('TextBox', {
@@ -1771,7 +1722,7 @@ do
             TextXAlignment = Enum.TextXAlignment.Left;
 
             ZIndex = 7;
-            Parent = Container,
+            Parent = Container;
         });
 
         Library:ApplyTextStroke(Box);
@@ -1915,10 +1866,11 @@ do
         });
 
         Library:Create('UIListLayout', {
-            Name = 'Layout',
+            Padding = UDim.new(0, 4);
             FillDirection = Enum.FillDirection.Horizontal;
+            HorizontalAlignment = Enum.HorizontalAlignment.Right;
             SortOrder = Enum.SortOrder.LayoutOrder;
-            Parent = ToggleLabel,
+            Parent = ToggleLabel;
         });
 
         local ToggleRegion = Library:Create('Frame', {
@@ -1993,7 +1945,7 @@ do
         Toggle.Container = Container;
         setmetatable(Toggle, BaseAddons);
 
-        Toggles[Idx] = Toggle
+        Toggles[Idx] = Toggle;
 
         Library:UpdateDependencyBoxes();
 
@@ -2427,7 +2379,7 @@ do
 
                 local Button = Library:Create('Frame', {
                     BackgroundColor3 = Library.MainColor;
-                    BorderColor3 = Color3.new(0, 0, 0);
+                    BorderColor3 = Library.OutlineColor;
                     BorderMode = Enum.BorderMode.Middle;
                     Size = UDim2.new(1, -1, 0, 20);
                     ZIndex = 23;
@@ -2436,7 +2388,8 @@ do
                 });
 
                 Library:AddToRegistry(Button, {
-                    BackgroundColor3 = 'MainColor',
+                    BackgroundColor3 = 'MainColor';
+                    BorderColor3 = 'OutlineColor';
                 });
 
                 local ButtonLabel = Library:CreateLabel({
@@ -2510,7 +2463,7 @@ do
 
                             Library:AttemptSave();
                         end;
-                    end
+                    end;
                 end);
 
                 Table:UpdateButton();
@@ -2667,7 +2620,7 @@ do
         local Layout = Library:Create('UIListLayout', {
             FillDirection = Enum.FillDirection.Vertical;
             SortOrder = Enum.SortOrder.LayoutOrder;
-            Parent = Frame,
+            Parent = Frame;
         });
 
         function Depbox:Resize()
@@ -2863,7 +2816,7 @@ do
     Library:Create('UIListLayout', {
         FillDirection = Enum.FillDirection.Vertical;
         SortOrder = Enum.SortOrder.LayoutOrder;
-        Parent = KeybindContainer,
+        Parent = KeybindContainer;
     });
 
     Library:Create('UIPadding', {
@@ -2963,7 +2916,7 @@ function Library:Notify(Text, Time)
     });
 
     Library:AddToRegistry(LeftColor, {
-        BackgroundColor3 = 'AccentColor',
+        BackgroundColor3 = 'AccentColor';
     }, true);
 
     pcall(NotifyOuter.TweenSize, NotifyOuter, UDim2.new(0, XSize + 8 + 4, 0, YSize), 'Out', 'Quad', 0.4, true);
@@ -3054,9 +3007,72 @@ function Library:CreateWindow(...)
 
     Library:AddToRegistry(Inner, {
         BackgroundColor3 = 'MainColor';
-        BorderColor3 = 'AccentColor',
+        BorderColor3 = 'AccentColor';
     });
+    if Config.Icon then
+        local Icon = Library:GetIcon(Config.Icon)
+        local CircularIcon = Library:Create('ImageButton', {
+            Image = Icon,
+            Size = UDim2.new(0, 100, 0, 100), -- Explicitly set size to 100x100
+            Position = UDim2.new(0, 10, 0, 10), -- Top-left corner with padding
+            BackgroundTransparency = 1,
+            ZIndex = 100, -- Ensure it appears above other UI elements
+            Parent = ScreenGui,
+        })
 
+        CircularIcon.Size = UDim2.new(0, 100, 0, 100) -- Reapply size to ensure it takes effect
+
+        -- Make the icon circular
+        local UICorner = Instance.new("UICorner", CircularIcon)
+        UICorner.CornerRadius = UDim.new(1, 0) -- Fully circular
+
+        -- Add click functionality to toggle UI visibility and copy the Discord link
+        CircularIcon.MouseButton1Click:Connect(function()
+            setclipboard("https://discord.gg/xkYzren9AF") -- Replace with your Discord link
+            Library:Notify("Discord link copied to clipboard!", 2)
+
+            -- Toggle UI visibility
+            if Library.Holder.Visible then
+                Library.Holder.Visible = false
+                Library.NoUI = true
+            else
+                Library.Holder.Visible = true
+                Library.NoUI = false
+            end
+        end)
+
+        -- Make the icon draggable
+        local dragging, dragStart, startPos
+        local function update(input)
+            local delta = input.Position - dragStart
+            CircularIcon.Position = UDim2.new(
+                startPos.X.Scale,
+                startPos.X.Offset + delta.X,
+                startPos.Y.Scale,
+                startPos.Y.Offset + delta.Y
+            )
+        end
+
+        CircularIcon.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                dragging = true
+                dragStart = input.Position
+                startPos = CircularIcon.Position
+            end
+        end)
+
+        CircularIcon.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                dragging = false
+            end
+        end)
+
+        InputService.InputChanged:Connect(function(input)
+            if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+                update(input)
+            end
+        end)
+    end
     local WindowLabel = Library:CreateLabel({
         Position = UDim2.new(0, Config.Icon and 30 or 7, 0, 0);
         Size = UDim2.new(0, 0, 0, 25);
@@ -3065,6 +3081,7 @@ function Library:CreateWindow(...)
         ZIndex = 1;
         Parent = Inner;
     });
+
 
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
@@ -3077,7 +3094,7 @@ function Library:CreateWindow(...)
 
     Library:AddToRegistry(MainSectionOuter, {
         BackgroundColor3 = 'BackgroundColor';
-        BorderColor3 = 'OutlineColor',
+        BorderColor3 = 'OutlineColor';
     });
 
     local MainSectionInner = Library:Create('Frame', {
@@ -3091,7 +3108,7 @@ function Library:CreateWindow(...)
     });
 
     Library:AddToRegistry(MainSectionInner, {
-        BackgroundColor3 = 'BackgroundColor',
+        BackgroundColor3 = 'BackgroundColor';
     });
 
     local TabArea = Library:Create('Frame', {
@@ -3121,7 +3138,7 @@ function Library:CreateWindow(...)
 
     Library:AddToRegistry(TabContainer, {
         BackgroundColor3 = 'MainColor';
-        BorderColor3 = 'OutlineColor',
+        BorderColor3 = 'OutlineColor';
     });
 
     function Window:SetWindowTitle(Title)
@@ -3146,7 +3163,7 @@ function Library:CreateWindow(...)
 
         Library:AddToRegistry(TabButton, {
             BackgroundColor3 = 'BackgroundColor';
-            BorderColor3 = 'OutlineColor',
+            BorderColor3 = 'OutlineColor';
         });
 
         local TabButtonLabel = Library:CreateLabel({
@@ -3162,13 +3179,13 @@ function Library:CreateWindow(...)
             BorderSizePixel = 0;
             Position = UDim2.new(0, 0, 1, 0);
             Size = UDim2.new(1, 0, 0, 1);
-            BackgroundTransparency = 1,
+            BackgroundTransparency = 1;
             ZIndex = 3;
             Parent = TabButton;
         });
 
         Library:AddToRegistry(Blocker, {
-            BackgroundColor3 = 'MainColor',
+            BackgroundColor3 = 'MainColor';
         });
 
         local TabFrame = Library:Create('Frame', {
@@ -3253,8 +3270,8 @@ function Library:CreateWindow(...)
         end;
 
         function Tab:AddGroupbox(Info)
-            local Groupbox = {};
-
+            local Groupbox = {}
+        
             local BoxOuter = Library:Create('Frame', {
                 BackgroundColor3 = Library.BackgroundColor;
                 BorderColor3 = Library.OutlineColor;
@@ -3262,83 +3279,94 @@ function Library:CreateWindow(...)
                 Size = UDim2.new(1, 0, 0, 507 + 2);
                 ZIndex = 2;
                 Parent = Info.Side == 1 and LeftSide or RightSide;
-            });
-
+            })
+        
             Library:AddToRegistry(BoxOuter, {
                 BackgroundColor3 = 'BackgroundColor';
-                BorderColor3 = 'OutlineColor',
-            });
-
+                BorderColor3 = 'OutlineColor';
+            })
+        
             local BoxInner = Library:Create('Frame', {
                 BackgroundColor3 = Library.BackgroundColor;
                 BorderColor3 = Color3.new(0, 0, 0);
-                -- BorderMode = Enum.BorderMode.Inset;
                 Size = UDim2.new(1, -2, 1, -2);
                 Position = UDim2.new(0, 1, 0, 1);
                 ZIndex = 4;
                 Parent = BoxOuter;
-            });
-
+            })
+        
             Library:AddToRegistry(BoxInner, {
-                BackgroundColor3 = 'BackgroundColor',
-            });
-
+                BackgroundColor3 = 'BackgroundColor';
+            })
+        
             local Highlight = Library:Create('Frame', {
                 BackgroundColor3 = Library.AccentColor;
                 BorderSizePixel = 0;
                 Size = UDim2.new(1, 0, 0, 2);
                 ZIndex = 5;
                 Parent = BoxInner;
-            });
-
+            })
+        
             Library:AddToRegistry(Highlight, {
-                BackgroundColor3 = 'AccentColor',
-            });
-
+                BackgroundColor3 = 'AccentColor';
+            })
+        
+            -- Add an icon if provided
+            if Info.Icon then
+                local Icon = Library:Create('ImageLabel', {
+                    BackgroundTransparency = 1;
+                    Image = Info.Icon;
+                    Size = UDim2.new(0, 16, 0, 16); -- Adjust size as needed
+                    Position = UDim2.new(0, 4, 0, 2); -- Adjust position as needed
+                    ZIndex = 5;
+                    Parent = BoxInner;
+                })
+            end
+        
             local GroupboxLabel = Library:CreateLabel({
                 Size = UDim2.new(1, 0, 0, 18);
-                Position = UDim2.new(0, 4, 0, 2);
+                Position = UDim2.new(0, Info.Icon and 24 or 4, 0, 2); -- Adjust position if icon exists
                 TextSize = 14;
                 Text = Info.Name;
                 TextXAlignment = Enum.TextXAlignment.Left;
                 ZIndex = 5;
                 Parent = BoxInner;
-            });
-
+            })
+        
             local Container = Library:Create('Frame', {
                 BackgroundTransparency = 1;
                 Position = UDim2.new(0, 4, 0, 20);
                 Size = UDim2.new(1, -4, 1, -20);
                 ZIndex = 1;
                 Parent = BoxInner;
-            });
-
+            })
+        
             Library:Create('UIListLayout', {
                 FillDirection = Enum.FillDirection.Vertical;
                 SortOrder = Enum.SortOrder.LayoutOrder;
-                Parent = Container,
-            });
-
+                Parent = Container;
+            })
+        
             function Groupbox:Resize()
-                local Size = 0;
-
+                local Size = 0
+        
                 for _, Element in next, Groupbox.Container:GetChildren() do
                     if (not Element:IsA('UIListLayout')) and Element.Visible then
-                        Size = Size + Element.Size.Y.Offset;
-                    end;
-                end;
-
-                BoxOuter.Size = UDim2.new(1, 0, 0, 20 + Size + 2 + 2);
-            end;
-
-            Groupbox.Container = Container;
-            setmetatable(Groupbox, BaseGroupbox);
-
-            Groupbox:AddBlank(3);
-            Groupbox:Resize();
-
-            Tab.Groupboxes[Info.Name] = Groupbox;
-
+                        Size = Size + Element.Size.Y.Offset
+                    end
+                end
+        
+                BoxOuter.Size = UDim2.new(1, 0, 0, 20 + Size + 2 + 2)
+            end
+        
+            Groupbox.Container = Container
+            setmetatable(Groupbox, BaseGroupbox)
+        
+            Groupbox:AddBlank(3)
+            Groupbox:Resize()
+        
+            Tab.Groupboxes[Info.Name] = Groupbox
+        
             return Groupbox;
         end;
 
@@ -3366,7 +3394,7 @@ function Library:CreateWindow(...)
 
             Library:AddToRegistry(BoxOuter, {
                 BackgroundColor3 = 'BackgroundColor';
-                BorderColor3 = 'OutlineColor',
+                BorderColor3 = 'OutlineColor';
             });
 
             local BoxInner = Library:Create('Frame', {
@@ -3380,7 +3408,7 @@ function Library:CreateWindow(...)
             });
 
             Library:AddToRegistry(BoxInner, {
-                BackgroundColor3 = 'BackgroundColor',
+                BackgroundColor3 = 'BackgroundColor';
             });
 
             local Highlight = Library:Create('Frame', {
@@ -3392,7 +3420,7 @@ function Library:CreateWindow(...)
             });
 
             Library:AddToRegistry(Highlight, {
-                BackgroundColor3 = 'AccentColor',
+                BackgroundColor3 = 'AccentColor';
             });
 
             local TabboxButtons = Library:Create('Frame', {
@@ -3416,14 +3444,13 @@ function Library:CreateWindow(...)
                 local Button = Library:Create('Frame', {
                     BackgroundColor3 = Library.MainColor;
                     BorderColor3 = Color3.new(0, 0, 0);
-                    BorderMode = Enum.BorderMode.Middle;
-                    Size = UDim2.new(1, -1, 0, 20);
+                    Size = UDim2.new(0.5, 0, 1, 0);
                     ZIndex = 6;
                     Parent = TabboxButtons;
                 });
 
                 Library:AddToRegistry(Button, {
-                    BackgroundColor3 = 'MainColor',
+                    BackgroundColor3 = 'MainColor';
                 });
 
                 local ButtonLabel = Library:CreateLabel({
@@ -3446,7 +3473,7 @@ function Library:CreateWindow(...)
                 });
 
                 Library:AddToRegistry(Block, {
-                    BackgroundColor3 = 'BackgroundColor',
+                    BackgroundColor3 = 'BackgroundColor';
                 });
 
                 local Container = Library:Create('Frame', {
@@ -3461,7 +3488,7 @@ function Library:CreateWindow(...)
                 Library:Create('UIListLayout', {
                     FillDirection = Enum.FillDirection.Vertical;
                     SortOrder = Enum.SortOrder.LayoutOrder;
-                    Parent = Container,
+                    Parent = Container;
                 });
 
                 function Tab:Show()
@@ -3515,7 +3542,7 @@ function Library:CreateWindow(...)
                 end;
 
                 Button.InputBegan:Connect(function(Input)
-                    if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    if Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame() then
                         Tab:Show();
                         Tab:Resize();
                     end;
