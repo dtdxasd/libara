@@ -690,7 +690,7 @@ do
                 Name = 'Layout',
                 FillDirection = Enum.FillDirection.Vertical;
                 SortOrder = Enum.SortOrder.LayoutOrder;
-                Parent = ContextMenu.Inner;
+                Parent = ContextMenu.Inner,
             });
 
             Library:Create('UIPadding', {
@@ -1084,7 +1084,7 @@ do
         Library:Create('UIListLayout', {
             FillDirection = Enum.FillDirection.Vertical;
             SortOrder = Enum.SortOrder.LayoutOrder;
-            Parent = ModeSelectInner;
+            Parent = ModeSelectInner,
         });
 
         local ContainerLabel = Library:CreateLabel({
@@ -1685,15 +1685,6 @@ do
             Library:AddToolTip(Info.Tooltip, TextBoxOuter)
         end
 
-        Library:Create('UIGradient', {
-            Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)),
-                ColorSequenceKeypoint.new(1, Color3.fromRGB(212, 212, 212))
-            });
-            Rotation = 90;
-            Parent = TextBoxInner;
-        });
-
         local Container = Library:Create('Frame', {
             BackgroundTransparency = 1;
             ClipsDescendants = true;
@@ -1866,11 +1857,10 @@ do
         });
 
         Library:Create('UIListLayout', {
-            Padding = UDim.new(0, 4);
+            Name = 'Layout',
             FillDirection = Enum.FillDirection.Horizontal;
-            HorizontalAlignment = Enum.HorizontalAlignment.Right;
             SortOrder = Enum.SortOrder.LayoutOrder;
-            Parent = ToggleLabel;
+            Parent = ToggleLabel,
         });
 
         local ToggleRegion = Library:Create('Frame', {
@@ -1945,7 +1935,7 @@ do
         Toggle.Container = Container;
         setmetatable(Toggle, BaseAddons);
 
-        Toggles[Idx] = Toggle;
+        Toggles[Idx] = Toggle
 
         Library:UpdateDependencyBoxes();
 
@@ -2324,7 +2314,7 @@ do
             Padding = UDim.new(0, 0);
             FillDirection = Enum.FillDirection.Vertical;
             SortOrder = Enum.SortOrder.LayoutOrder;
-            Parent = Scrolling;
+            Parent = Scrolling,
         });
 
         function Dropdown:Display()
@@ -2389,7 +2379,6 @@ do
 
                 Library:AddToRegistry(Button, {
                     BackgroundColor3 = 'MainColor';
-                    BorderColor3 = 'OutlineColor';
                 });
 
                 local ButtonLabel = Library:CreateLabel({
@@ -2463,7 +2452,7 @@ do
 
                             Library:AttemptSave();
                         end;
-                    end;
+                    end
                 end);
 
                 Table:UpdateButton();
@@ -2816,7 +2805,7 @@ do
     Library:Create('UIListLayout', {
         FillDirection = Enum.FillDirection.Vertical;
         SortOrder = Enum.SortOrder.LayoutOrder;
-        Parent = KeybindContainer;
+        Parent = KeybindContainer,
     });
 
     Library:Create('UIPadding', {
@@ -3082,7 +3071,6 @@ function Library:CreateWindow(...)
         Parent = Inner;
     });
 
-
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
@@ -3179,7 +3167,7 @@ function Library:CreateWindow(...)
             BorderSizePixel = 0;
             Position = UDim2.new(0, 0, 1, 0);
             Size = UDim2.new(1, 0, 0, 1);
-            BackgroundTransparency = 1;
+            BackgroundTransparency = 1,
             ZIndex = 3;
             Parent = TabButton;
         });
@@ -3344,7 +3332,7 @@ function Library:CreateWindow(...)
             Library:Create('UIListLayout', {
                 FillDirection = Enum.FillDirection.Vertical;
                 SortOrder = Enum.SortOrder.LayoutOrder;
-                Parent = Container;
+                Parent = Container,
             });
 
             function Groupbox:Resize()
@@ -3370,12 +3358,12 @@ function Library:CreateWindow(...)
             return Groupbox;
         end;
 
-        function Tab:AddLeftGroupbox(Name)
-            return Tab:AddGroupbox({ Side = 1; Name = Name; });
+        function Tab:AddLeftGroupbox(Info)
+            return Tab:AddGroupbox({ Side = 1; Name = Info.Name, Icon = Info.Icon });
         end;
 
-        function Tab:AddRightGroupbox(Name)
-            return Tab:AddGroupbox({ Side = 2; Name = Name; });
+        function Tab:AddRightGroupbox(Info)
+            return Tab:AddGroupbox({ Side = 2; Name = Info.Name, Icon = Info.Icon });
         end;
 
         function Tab:AddTabbox(Info)
@@ -3443,8 +3431,9 @@ function Library:CreateWindow(...)
 
                 local Button = Library:Create('Frame', {
                     BackgroundColor3 = Library.MainColor;
-                    BorderColor3 = Color3.new(0, 0, 0);
-                    Size = UDim2.new(0.5, 0, 1, 0);
+                    BorderColor3 = Library.OutlineColor;
+                    BorderMode = Enum.BorderMode.Middle;
+                    Size = UDim2.new(1, -1, 0, 20);
                     ZIndex = 6;
                     Parent = TabboxButtons;
                 });
@@ -3488,7 +3477,7 @@ function Library:CreateWindow(...)
                 Library:Create('UIListLayout', {
                     FillDirection = Enum.FillDirection.Vertical;
                     SortOrder = Enum.SortOrder.LayoutOrder;
-                    Parent = Container;
+                    Parent = Container,
                 });
 
                 function Tab:Show()
