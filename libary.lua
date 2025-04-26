@@ -1015,7 +1015,7 @@ do
             Callback = Info.Callback or function(Value) end;
             ChangedCallback = Info.ChangedCallback or function(New) end;
 
-            SyncToggleState = Info.SyncToggleState or false;
+            SyncToggleState = Info.SyncToggleState or false,
         };
 
         if KeyPicker.SyncToggleState then
@@ -1084,7 +1084,7 @@ do
         Library:Create('UIListLayout', {
             FillDirection = Enum.FillDirection.Vertical;
             SortOrder = Enum.SortOrder.LayoutOrder;
-            Parent = ModeSelectInner;
+            Parent = ModeSelectInner,
         });
 
         local ContainerLabel = Library:CreateLabel({
@@ -1915,11 +1915,10 @@ do
         });
 
         Library:Create('UIListLayout', {
-            Padding = UDim.new(0, 4);
+            Name = 'Layout',
             FillDirection = Enum.FillDirection.Horizontal;
-            HorizontalAlignment = Enum.HorizontalAlignment.Right;
             SortOrder = Enum.SortOrder.LayoutOrder;
-            Parent = ToggleLabel;
+            Parent = ToggleLabel,
         });
 
         local ToggleRegion = Library:Create('Frame', {
@@ -2437,7 +2436,7 @@ do
                 });
 
                 Library:AddToRegistry(Button, {
-                    BackgroundColor3 = 'MainColor';
+                    BackgroundColor3 = 'MainColor',
                 });
 
                 local ButtonLabel = Library:CreateLabel({
@@ -2511,7 +2510,7 @@ do
 
                             Library:AttemptSave();
                         end;
-                    end;
+                    end
                 end);
 
                 Table:UpdateButton();
@@ -2668,7 +2667,7 @@ do
         local Layout = Library:Create('UIListLayout', {
             FillDirection = Enum.FillDirection.Vertical;
             SortOrder = Enum.SortOrder.LayoutOrder;
-            Parent = Frame;
+            Parent = Frame,
         });
 
         function Depbox:Resize()
@@ -2864,7 +2863,7 @@ do
     Library:Create('UIListLayout', {
         FillDirection = Enum.FillDirection.Vertical;
         SortOrder = Enum.SortOrder.LayoutOrder;
-        Parent = KeybindContainer;
+        Parent = KeybindContainer,
     });
 
     Library:Create('UIPadding', {
@@ -2964,7 +2963,7 @@ function Library:Notify(Text, Time)
     });
 
     Library:AddToRegistry(LeftColor, {
-        BackgroundColor3 = 'AccentColor';
+        BackgroundColor3 = 'AccentColor',
     }, true);
 
     pcall(NotifyOuter.TweenSize, NotifyOuter, UDim2.new(0, XSize + 8 + 4, 0, YSize), 'Out', 'Quad', 0.4, true);
@@ -3055,72 +3054,9 @@ function Library:CreateWindow(...)
 
     Library:AddToRegistry(Inner, {
         BackgroundColor3 = 'MainColor';
-        BorderColor3 = 'AccentColor';
+        BorderColor3 = 'AccentColor',
     });
-    if Config.Icon then
-        local Icon = Library:GetIcon(Config.Icon)
-        local CircularIcon = Library:Create('ImageButton', {
-            Image = Icon,
-            Size = UDim2.new(0, 100, 0, 100), -- Explicitly set size to 100x100
-            Position = UDim2.new(0, 10, 0, 10), -- Top-left corner with padding
-            BackgroundTransparency = 1,
-            ZIndex = 100, -- Ensure it appears above other UI elements
-            Parent = ScreenGui,
-        })
 
-        CircularIcon.Size = UDim2.new(0, 100, 0, 100) -- Reapply size to ensure it takes effect
-
-        -- Make the icon circular
-        local UICorner = Instance.new("UICorner", CircularIcon)
-        UICorner.CornerRadius = UDim.new(1, 0) -- Fully circular
-
-        -- Add click functionality to toggle UI visibility and copy the Discord link
-        CircularIcon.MouseButton1Click:Connect(function()
-            setclipboard("https://discord.gg/xkYzren9AF") -- Replace with your Discord link
-            Library:Notify("Discord link copied to clipboard!", 2)
-
-            -- Toggle UI visibility
-            if Library.Holder.Visible then
-                Library.Holder.Visible = false
-                Library.NoUI = true
-            else
-                Library.Holder.Visible = true
-                Library.NoUI = false
-            end
-        end)
-
-        -- Make the icon draggable
-        local dragging, dragStart, startPos
-        local function update(input)
-            local delta = input.Position - dragStart
-            CircularIcon.Position = UDim2.new(
-                startPos.X.Scale,
-                startPos.X.Offset + delta.X,
-                startPos.Y.Scale,
-                startPos.Y.Offset + delta.Y
-            )
-        end
-
-        CircularIcon.InputBegan:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                dragging = true
-                dragStart = input.Position
-                startPos = CircularIcon.Position
-            end
-        end)
-
-        CircularIcon.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                dragging = false
-            end
-        end)
-
-        InputService.InputChanged:Connect(function(input)
-            if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-                update(input)
-            end
-        end)
-    end
     local WindowLabel = Library:CreateLabel({
         Position = UDim2.new(0, Config.Icon and 30 or 7, 0, 0);
         Size = UDim2.new(0, 0, 0, 25);
@@ -3129,7 +3065,6 @@ function Library:CreateWindow(...)
         ZIndex = 1;
         Parent = Inner;
     });
-
 
     local MainSectionOuter = Library:Create('Frame', {
         BackgroundColor3 = Library.BackgroundColor;
@@ -3142,7 +3077,7 @@ function Library:CreateWindow(...)
 
     Library:AddToRegistry(MainSectionOuter, {
         BackgroundColor3 = 'BackgroundColor';
-        BorderColor3 = 'OutlineColor';
+        BorderColor3 = 'OutlineColor',
     });
 
     local MainSectionInner = Library:Create('Frame', {
@@ -3156,7 +3091,7 @@ function Library:CreateWindow(...)
     });
 
     Library:AddToRegistry(MainSectionInner, {
-        BackgroundColor3 = 'BackgroundColor';
+        BackgroundColor3 = 'BackgroundColor',
     });
 
     local TabArea = Library:Create('Frame', {
@@ -3186,7 +3121,7 @@ function Library:CreateWindow(...)
 
     Library:AddToRegistry(TabContainer, {
         BackgroundColor3 = 'MainColor';
-        BorderColor3 = 'OutlineColor';
+        BorderColor3 = 'OutlineColor',
     });
 
     function Window:SetWindowTitle(Title)
@@ -3211,7 +3146,7 @@ function Library:CreateWindow(...)
 
         Library:AddToRegistry(TabButton, {
             BackgroundColor3 = 'BackgroundColor';
-            BorderColor3 = 'OutlineColor';
+            BorderColor3 = 'OutlineColor',
         });
 
         local TabButtonLabel = Library:CreateLabel({
@@ -3233,7 +3168,7 @@ function Library:CreateWindow(...)
         });
 
         Library:AddToRegistry(Blocker, {
-            BackgroundColor3 = 'MainColor';
+            BackgroundColor3 = 'MainColor',
         });
 
         local TabFrame = Library:Create('Frame', {
@@ -3331,7 +3266,7 @@ function Library:CreateWindow(...)
 
             Library:AddToRegistry(BoxOuter, {
                 BackgroundColor3 = 'BackgroundColor';
-                BorderColor3 = 'OutlineColor';
+                BorderColor3 = 'OutlineColor',
             });
 
             local BoxInner = Library:Create('Frame', {
@@ -3345,7 +3280,7 @@ function Library:CreateWindow(...)
             });
 
             Library:AddToRegistry(BoxInner, {
-                BackgroundColor3 = 'BackgroundColor';
+                BackgroundColor3 = 'BackgroundColor',
             });
 
             local Highlight = Library:Create('Frame', {
@@ -3357,7 +3292,7 @@ function Library:CreateWindow(...)
             });
 
             Library:AddToRegistry(Highlight, {
-                BackgroundColor3 = 'AccentColor';
+                BackgroundColor3 = 'AccentColor',
             });
 
             local GroupboxLabel = Library:CreateLabel({
@@ -3381,7 +3316,7 @@ function Library:CreateWindow(...)
             Library:Create('UIListLayout', {
                 FillDirection = Enum.FillDirection.Vertical;
                 SortOrder = Enum.SortOrder.LayoutOrder;
-                Parent = Container;
+                Parent = Container,
             });
 
             function Groupbox:Resize()
@@ -3431,7 +3366,7 @@ function Library:CreateWindow(...)
 
             Library:AddToRegistry(BoxOuter, {
                 BackgroundColor3 = 'BackgroundColor';
-                BorderColor3 = 'OutlineColor';
+                BorderColor3 = 'OutlineColor',
             });
 
             local BoxInner = Library:Create('Frame', {
@@ -3445,7 +3380,7 @@ function Library:CreateWindow(...)
             });
 
             Library:AddToRegistry(BoxInner, {
-                BackgroundColor3 = 'BackgroundColor';
+                BackgroundColor3 = 'BackgroundColor',
             });
 
             local Highlight = Library:Create('Frame', {
@@ -3457,7 +3392,7 @@ function Library:CreateWindow(...)
             });
 
             Library:AddToRegistry(Highlight, {
-                BackgroundColor3 = 'AccentColor';
+                BackgroundColor3 = 'AccentColor',
             });
 
             local TabboxButtons = Library:Create('Frame', {
@@ -3488,7 +3423,7 @@ function Library:CreateWindow(...)
                 });
 
                 Library:AddToRegistry(Button, {
-                    BackgroundColor3 = 'MainColor';
+                    BackgroundColor3 = 'MainColor',
                 });
 
                 local ButtonLabel = Library:CreateLabel({
@@ -3511,7 +3446,7 @@ function Library:CreateWindow(...)
                 });
 
                 Library:AddToRegistry(Block, {
-                    BackgroundColor3 = 'BackgroundColor';
+                    BackgroundColor3 = 'BackgroundColor',
                 });
 
                 local Container = Library:Create('Frame', {
@@ -3526,7 +3461,7 @@ function Library:CreateWindow(...)
                 Library:Create('UIListLayout', {
                     FillDirection = Enum.FillDirection.Vertical;
                     SortOrder = Enum.SortOrder.LayoutOrder;
-                    Parent = Container;
+                    Parent = Container,
                 });
 
                 function Tab:Show()
